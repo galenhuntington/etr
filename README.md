@@ -11,7 +11,7 @@ compatibility option, and I missed one import back when they were
 only recommended.
 
 2.  The version of GHC I developed this under, 6.10.1, had a defective
-implementation of the Integer `gcd` algorithm, which ultimately exacted
+implementation of the `Integer` GCD algorithm, which ultimately exacted
 a significant performance cost.  As such, I wrote a substitute function
 using a "backdoor" into the GHC codebase to make it as efficient
 as it should be.  This backdoor no longer works, and is [no longer
