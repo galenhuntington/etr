@@ -21,8 +21,8 @@ necessary](https://ghc.haskell.org/trac/ghc/changeset/8827985d7ce902bfc916e41680
 [remove](http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/release-7-4-1.html#id3013571)
 `Eq` and `Show` as superclasses of `Num`.  My polynomial extensions
 library especially needs `Eq` to test for coefficients being zero.
-Thus, the type signatures of many definitions required additional
-constraints.
+Thus, many type signatures and instance declarations required
+additional constraints.
 
 I have also removed a superfluous dependency from the parser.
 It still requires `parsec`, which is included in the Haskell Platform.
