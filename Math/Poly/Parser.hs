@@ -20,7 +20,6 @@ import Data.Maybe
 
 import Math.Poly.Multi
 import Text.ParserCombinators.Parsec
-import Control.Monad.Error
 
 -- Simple combinators.
 parens = between (char '(') (char ')')

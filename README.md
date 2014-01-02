@@ -10,17 +10,22 @@ for the following reasons:
 compatibility option, and I missed one import back when they were
 only recommended.
 
-2.  The version of GHC I developed this under, 6.10.1, had a defective
+2.  The version of GHC I ran it under, 6.10.1, had a defective
 implementation of the `Integer` GCD algorithm, which ultimately exacted
 a significant performance cost.  As such, I wrote a substitute function
 using a "backdoor" into the GHC codebase to make it as efficient
 as it should be.  This backdoor no longer works, and is [no longer
 necessary](https://ghc.haskell.org/trac/ghc/changeset/8827985d7ce902bfc916e4168049c9a46a1d7fe8/base).
 
-3.  The Haskell community has opted to remove `Eq` and `Show` as
-superclasses of `Num`.  My polynomial extensions library especially
-needs `Eq` to test for coefficients being zero.  Thus, the type
-signatures of many definitions required additional constraints.
+3.  The GHC community has opted to
+[remove](http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/release-7-4-1.html#id3013571)
+`Eq` and `Show` as superclasses of `Num`.  My polynomial extensions
+library especially needs `Eq` to test for coefficients being zero.
+Thus, the type signatures of many definitions required additional
+constraints.
+
+I have also removed a superfluous dependency from the parser.
+It still requires `parsec`, which is included in the Haskell Platform.
 
 The master branch has been updated so it will compile and run correctly
 under recent versions of GHC (tested under 7.4.1 and 7.6.3).  No attempt
