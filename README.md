@@ -3,21 +3,21 @@ dissertation _Towards an efficient decision procedure for the
 existential theory of the reals_.
 
 I provide one branch (6.10.1) with the unmodified original code.
-However, this will no longer compile with more recent versions of GHC,
+However, this will no longer compile with recent versions of GHC,
 for the following reasons:
 
 1.  Hierarchical modules are now required unless you use a
 compatibility option, and I missed one import back when they were
 only recommended.
 
-2.  The version of GHC I ran this under, 6.10.1, had a broken
-implementation of the Integer GCD algorithm which imposed a huge
-performance hit.  As such, I wrote a substitute function using a
-"backdoor" into the GHC codebase to make it as efficient as it
-should be.  This backdoor no longer works, and is hopefully no longer
-necessary.
+2.  The version of GHC I developed this under, 6.10.1, had a defective
+implementation of the Integer `gcd` algorithm, which ultimately exacted
+a significant performance cost.  As such, I wrote a substitute function
+using a "backdoor" into the GHC codebase to make it as efficient
+as it should be.  This backdoor no longer works, and is [no longer
+necessary](https://ghc.haskell.org/trac/ghc/changeset/8827985d7ce902bfc916e4168049c9a46a1d7fe8/base).
 
-3.  The Haskell community opted to remove `Eq` and `Show` as
+3.  The Haskell community has opted to remove `Eq` and `Show` as
 superclasses of `Num`.  My polynomial extensions library especially
 needs `Eq` to test for coefficients being zero.  Thus, the type
 signatures of many definitions required additional constraints.
