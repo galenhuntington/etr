@@ -33,10 +33,6 @@ import Prelude hiding (
   (^), foldl, foldr, foldl1, foldr1, sum, product, maximum, minimum, concat,
   concatMap, and, or, all, any, sequence_, mapM, mapM_, elem, notElem)
 
--- This (blech!) is needed because ghc 6.10.1 disables the automatic
--- use of this faster GCD, and the performance difference is enormous.
-import GHC.Integer (gcdInteger)
-
 import Data.Maybe
 import Data.Foldable
 import Data.Ratio
@@ -45,9 +41,9 @@ import Control.Monad (MonadPlus, mzero, guard, join)
 -- | Numeric version of a pointed functor (or premonad), with the ability to
 --   project down to boot.
 class Foldable x => Extension x where
-  unit :: Num a => a -> x a
+  unit :: (Eq a, Num a) => a -> x a
   project :: Num a => x a -> a
-  nmap :: (Num a, Num b) => (a -> b) -> x a -> x b
+  nmap :: (Eq a, Num a, Eq b, Num b) => (a -> b) -> x a -> x b
 
 
 -- | A general notion of a type where one can sometimes do exact division.
@@ -120,19 +116,10 @@ class Divisible a => Reducible a where
   rgcd :: a -> a -> a
   rgcd a b = (fst $ a `reduce2` b) `divout_` a
 
--- All this crap is needed for ghc 6.10.1.
-gcdInteger' :: Integer -> Integer -> Integer
-gcdInteger' 0 0 = error "gcd 0 0"
-gcdInteger' a b = gcdInteger a b
-{-# INLINE [1] gcd' #-}
-{-# RULES "gcd'/Integer->Integer->Integer" gcd' = gcdInteger' #-}
-gcd' :: Integral a => a -> a -> a
-gcd' = gcd
-
 instance Reducible Integer where
-  rgcd = gcd'
+  rgcd = gcd
   reduce2 a b = (g`divout_`a, g`divout_`b)
-    where g = (if a<0 then negate else id) $ a `gcd'` b
+    where g = (if a<0 then negate else id) $ a `gcd` b
 instance Integral a => Reducible (Ratio a) where reduce2 a b = (1, b/a); rgcd a _ = a
 instance Reducible Float where reduce2 a b = (1, b/a); rgcd a _ = a
 instance Reducible Double where reduce2 a b = (1, b/a); rgcd a _ = a
@@ -167,13 +154,13 @@ choose n k =
     -1 -> 0
     i  -> product [n-i+1..n] `div` product [1..i]
 
--- | All k-size combinations from a list.
+-- | All k-sized combinations from a list.
 combs :: Int -> [a] -> [[a]]
 combs 0 _  = [[]]
 combs _ [] = []
 combs k (h:t) = map (h:) (combs (k-1) t) ++ combs k t
 
--- | All <=k-size combinations from list.
+-- | All <=k-sized combinations from list.
 combsTo :: Int -> [a] -> [[a]]
 combsTo (-1) _ = []; combsTo _ [] = [[]]
 combsTo k (h:t) = combsTo k t ++ map (h:) (combsTo (k-1) t)
@@ -190,7 +177,7 @@ x ^ y = x Prelude.^ y
 
 -- | Returns a list with the nth adjusted by the second argument.
 --   Extends the list with zeroes if needed.
-tweak :: Num t => Int -> t -> [t] -> [t]
+tweak :: (Eq t, Num t) => Int -> t -> [t] -> [t]
 tweak _ 0 l = l
 tweak n d l = tw n l where
   tw 0 (h:t) = h+d : t

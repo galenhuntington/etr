@@ -24,13 +24,13 @@ import Math.Resultant
 import Math.SignDet
 
 -- | Perturb using your favorite infinity and generic a-vector.
-perturb :: Num a => a -> [a] -> (Int, [MPoly a]) -> (Int, [MPoly a])
+perturb :: (Eq a, Num a) => a -> [a] -> (Int, [MPoly a]) -> (Int, [MPoly a])
 perturb bigm av = second $ \ps -> [ unit bigm*p - unit a | (p, a) <- zip ps av ]
 
 -- | To test if a subset has a solution, we pick a generic
 --   g-vector and a set of indices representing that subset, and create
 --   a \"tube\".
-mkTube :: (Reducible a) => [a] -> [Int] -> MSystem a -> MSystem (Poly a)
+mkTube :: (Eq a, Reducible a) => [a] -> [Int] -> MSystem a -> MSystem (Poly a)
 mkTube gv is (n, ps) =
     (n, nmap unit tot - unit idPoly : map (nmap unit . primPart . myd . (bas!!)) [0..n-2])
   where tot = primPart $ sum [ (ps!!i)^2 | i <- is ]
@@ -63,17 +63,17 @@ uResWith us f1 f2 eqs cv =
     . mResultant . f2 . map (nmap pTranspose) . us (map unit cv) $ eqs
 
 -- | Get the u-resultant of the system.
-uRes :: Reducible a => MSystem (Poly a) -> [a] -> Maybe (Poly a)
+uRes :: (Eq a, Reducible a) => MSystem (Poly a) -> [a] -> Maybe (Poly a)
 uRes = uResWith uSuppl' id id
 
 -- | Via Canny's generalized characteristic polynomial.
-uResGCP :: Reducible a => MSystem (Poly a) -> [a] -> Maybe (Poly a)
+uResGCP :: (Eq a, Reducible a) => MSystem (Poly a) -> [a] -> Maybe (Poly a)
 uResGCP = uResWith uSuppl (project . divoutIds) prepareGCP
 
 -- | Compute variable representations, threaded through the @Maybe@
 --   monad to catch degenerate cases.
-varRep :: Reducible a => MSystem (Poly a) -> Poly a -> [a] -> Int
-                            -> Maybe (Poly a, Poly a)
+varRep :: (Eq a, Reducible a) => MSystem (Poly a) -> Poly a -> [a] -> Int
+                                  -> Maybe (Poly a, Poly a)
 varRep eqs res cv i = do
   [ps, ns] <- sequence [ uRes eqs $ tweak i x cv | x <- [1, -1] ]
   guard $ ps/=0 && ns/=0
@@ -86,13 +86,13 @@ varRep eqs res cv i = do
 
 -- | Compute all variable representations at once into a list,
 --   again via the @Maybe@ monad.
-varReps :: Reducible a => MSystem (Poly a) -> Poly a -> [a] -> Maybe [(Poly a, Poly a)]
+varReps :: (Eq a, Reducible a) => MSystem (Poly a) -> Poly a -> [a] -> Maybe [(Poly a, Poly a)]
 varReps eqs@(nv, _) res cv = sequence [ varRep eqs res cv i | i <- [0..nv-2] ]
 
 -- | Plug a sequence of variable representations into a multivariate polynomial,
 --   multiplying through by an even power of the denominator to
 --   eliminate denominators without changing the sign.
-qPlug :: Num a => [(Poly a, Poly a)] -> MPoly a -> Poly a
+qPlug :: (Eq a, Num a) => [(Poly a, Poly a)] -> MPoly a -> Poly a
 qPlug ups mp =
   let pows   = [ let l x = iterate (x*) 1 in (l n, l d) | (n, d) <- ups ]
       maxexp = map bump $ foldl1 (zipWith' max) [ e | (_, e) <- terms mp ]
@@ -116,7 +116,7 @@ data UPack a = UPack {
 --   creates a `UPack` structure which contains all information needed
 --   to build variables representations.
 prepSimpETR ::
-  Num a =>
+  (Eq a, Num a) =>
   [MPoly a] -- ^ Original set of equations.
   -> a      -- ^ The number to use as infinity.
   -> [a]    -- ^ The a-vector, used for perturbation

@@ -63,7 +63,7 @@ resMatrices ps = (bigm, subm) where
 
 -- | Compute the multivariate resultant of a set of polynomials, using
 --   the basic algorithm.  Uses a `Maybe` instance for the case @0/0@.
-mResultant :: (Num a, Divisible a) => [MPoly a] -> Maybe a
+mResultant :: (Eq a, Num a, Divisible a) => [MPoly a] -> Maybe a
 mResultant ps =
   let (a, b) = det *** det $ resMatrices ps in
     case b of 0 -> Nothing; _ -> Just $ b `divout_` a
@@ -71,20 +71,20 @@ mResultant ps =
 -- This is less general than the real u-resultant, so maybe it
 -- should be named thus.
 -- | Supplement a set with a u-variable, to prepare for u-resultant.
-uSuppl :: Num a => [a] -> MSystem a -> [MPoly (Poly a)]
+uSuppl :: (Eq a, Num a) => [a] -> MSystem a -> [MPoly (Poly a)]
 uSuppl cv (nv, pl) = map (nmap unit) pl ++ [ueq] where
   ueq = unit idPoly * x_ 0 - sum [ unit (unit g) * x_ i | (i, g) <- zip [1..nv-1] cv ]
 
 -- | This supplements indirectly based on Minimair (2006).  Note that it
 --   does produce spurious factors of `idPoly`, which will have to be removed.
 --   So far simply using `divoutIds` has not caused any problems.
-uSuppl' :: Num a => [a] -> MSystem a -> [MPoly (Poly a)]
+uSuppl' :: (Eq a, Num a) => [a] -> MSystem a -> [MPoly (Poly a)]
 uSuppl' cv (_, pl) = map (flip evalAts vs) (map (nmap unit . nmap unit) pl) where
   vs = (negate.sum) [ unit (unit c) * x_ i | (i, c) <- zip [0..] cv ]
           : [ unit idPoly * x_ i | i <- [0..] ]
 
 -- | Used to convert to \"generalized characteristic polynomial\" (Canny 1990).
-prepareGCP :: Num a => [MPoly a] -> [MPoly (Poly a)]
+prepareGCP :: (Eq a, Num a) => [MPoly a] -> [MPoly (Poly a)]
 prepareGCP ps =
   [ nmap unit p + unit idPoly * x_ i^(hmp_deg p) | (p, i) <- zip ps [0..] ]
 
@@ -98,10 +98,10 @@ mkMSystem l = (maximum $ 0 : map numVars l, l)
 -- | Homogenize a polynomial by making all terms have equal total degree.
 --   This is done by adding a new variable \"at the beginning\", which
 --   (possibly counterintuitively) shifts all the variables over by one.
-homog :: Num a => MPoly a -> MPoly a
+homog :: (Eq a, Num a) => MPoly a -> MPoly a
 homog p = linMonoMap unit (\x -> 1 `monomial` (tdeg - sum x : x)) p
   where tdeg = totalDegree p
 
-homogSys :: Num a => MSystem a -> MSystem a
+homogSys :: (Eq a, Num a) => MSystem a -> MSystem a
 homogSys (nv, mps) = (nv+1, map homog mps)
 

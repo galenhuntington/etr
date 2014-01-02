@@ -22,7 +22,7 @@ newtype MPoly a = P { terms :: RawPoly a } deriving (Eq)
 instance Ord Mono' where
   compare (M a) (M b) = (sum a `compare` sum b) `mappend` (a `compare` b)
 
-instance Num a => Num (MPoly a) where
+instance (Eq a, Num a) => Num (MPoly a) where
   P x + P y = P $ gen_add 1 x y
   P x * P y = P $ foldl (gen_add 1) []
     [ [ (cx*cy, mx`mmul`my) | (cy, my) <- y ] | (cx, mx) <- x ]
@@ -31,7 +31,7 @@ instance Num a => Num (MPoly a) where
   abs (P x) = P x; signum _ = 1
   fromInteger = unit . fromInteger
 
-instance Num a => Show (MPoly a) where
+instance (Show a, Num a) => Show (MPoly a) where
   show (P x) = show x
 
 instance Extension MPoly where
@@ -42,7 +42,7 @@ instance Extension MPoly where
 instance Foldable MPoly where
   foldr f v = foldr f v . map fst . terms
 
-filternz :: (Num a) => RawPoly a -> RawPoly a
+filternz :: (Eq a, Num a) => RawPoly a -> RawPoly a
 filternz = filter ((/=0).fst)
 
 mmul :: Mono -> Mono -> Mono
@@ -50,7 +50,7 @@ mmul = zipWith' (+)
 
 -- There may be a more efficient way to do this, but efficiency
 -- is not hugely important here.
-gen_add :: Num a => a -> RawPoly a -> RawPoly a -> RawPoly a
+gen_add :: (Eq a, Num a) => a -> RawPoly a -> RawPoly a -> RawPoly a
 gen_add f = ga where
   ga x [] = x
   ga [] x = map (first (f*)) x
@@ -99,14 +99,14 @@ linMonoMap :: (Num a, Num b) => (a -> b) -> ([Int] -> b) -> MPoly a -> b
 linMonoMap u f (P p) = sum [ u c * f e | (c, e) <- p ]
 
 -- | Partial derivative.
-pderiv :: Num a => Int -> MPoly a -> MPoly a
+pderiv :: (Eq a, Num a) => Int -> MPoly a -> MPoly a
 pderiv n = linMonoMap unit $ \es ->
   case splitAt n es of
     (_, [])    -> 0; (_, 0:_)   -> 0
     (e1, x:e2) -> fromIntegral x `monomial` (e1++(x-1):e2)
 
 -- | Linear derivative, in a given direction.
-lderiv :: (Num a) => (Int, MPoly a) -> [a] -> MPoly a
+lderiv :: (Eq a, Num a) => (Int, MPoly a) -> [a] -> MPoly a
 lderiv (n, p) = let ds = map (flip pderiv p) [0..n-1] in
   \ v -> sum [ unit e * d | (e, d) <- zip v ds {-, e/=0 -} ]
 

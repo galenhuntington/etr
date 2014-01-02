@@ -25,7 +25,7 @@ type Matrix a = Array (Int, Int) a
 -- | Division-free algorithm for computing the characteristic polynomial
 --   in O(n^4) time, based on Rote (2001).  It can be used to find the
 --   determinant in the absence of a @Divisible@ instance.
-charPoly :: Num a => Matrix a -> Poly a
+charPoly :: (Eq a, Num a) => Matrix a -> Poly a
 charPoly mx = fromCoeffs $ fst $ layer n where
   n = (fst $ snd $ bounds mx) + 1 :: Int
   shel pn ar = (ar!(n,n) : pn, ar)
@@ -37,7 +37,7 @@ charPoly mx = fromCoeffs $ fst $ layer n where
       | tot <- scanl (+) 0 [ sum [ mx!(r,c)*pl!(r,c) | r <- [c..n-1] ] | c <- [0..n-1] ] ]
 
 -- | Compute determinant using only exact divisions.
-det :: Divisible a => Matrix a -> a
+det :: (Eq a, Divisible a) => Matrix a -> a
 det mx0 = if sz<0 then 1 else loop sz 1 mx0 where
   sz = fst $ snd $ bounds mx0
   loop n lpv mx = case [ r |  r <- [0..n], mx!(r, n) /= 0 ] of
@@ -51,7 +51,7 @@ det mx0 = if sz<0 then 1 else loop sz 1 mx0 where
 -- | Compute the polynomial determinant, using only exact divisions.
 --   This uses the interpretation that the matrix is a list of
 --   polynomials.
-polyDet :: (Divisible a) => [Poly a] -> Poly a
+polyDet :: (Eq a, Divisible a) => [Poly a] -> Poly a
 polyDet ps = det $ mkMatrix (m+1) $ concat rows where
     m = length ps - 1; n = maximum (map degree ps)
     rows = [ replicate (m - length t) 0 ++ map unit t ++ [p]
@@ -59,7 +59,7 @@ polyDet ps = det $ mkMatrix (m+1) $ concat rows where
 
 -- | Compute the kth subresultant of two polynomials using the
 --   polynomial determinant.
-subres :: (Divisible a) => Int -> Poly a -> Poly a -> Poly a
+subres :: (Eq a, Divisible a) => Int -> Poly a -> Poly a -> Poly a
 subres k p q = polyDet $ up p q ++ up q p where
     up a b = let d = degree b in [ nud i a | i <- [0..d-k-1] ]
     nud i r = fromCoeffs (replicate i 0 ++ coeffs r)

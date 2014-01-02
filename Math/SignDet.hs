@@ -10,7 +10,7 @@ import Math.Base
 import Math.Poly (Poly, degree, leadingTerm, deriv)
 import Math.Poly.Extra (rmod)
 import Math.Linear (solve, mkMatrix)
-import List (transpose, group, sort)
+import Data.List (transpose, group, sort)
 
 -- | Type of a ternary sequence, by default encoded as an `Integer`.
 --   An `Int` is sufficient for any reasonable number of polynomials,

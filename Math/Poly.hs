@@ -30,11 +30,11 @@ import Math.Base
 data Poly a = P !a [a] deriving (Eq)
 
 -- Eliminate trailing zeroes, examining as few entries as possible.
-canon :: Num a => [a] -> [a]
+canon :: (Eq a, Num a) => [a] -> [a]
 canon l = case span (==0) l of (_, [])  -> []; (a, c:b) -> a ++ c : canon b
 
 -- This assumes the base type has no zero divisors (but could be changed).
-instance Num a => Num (Poly a) where
+instance (Eq a, Num a) => Num (Poly a) where
     P c x + P d y = P (c+d) $ canon (zipWith' (+) x y)
     P c x * P d y = P (if c==0 then 0 else c*d) rest where
       rest = case (null x, null y) of
@@ -57,7 +57,7 @@ instance Foldable Poly where
   foldr f v = foldr f v . coeffsRaw
 
 -- A basic show which renders the coefficents as a list.
-instance (Num a, Show a) => Show (Poly a) where
+instance (Eq a, Num a, Show a) => Show (Poly a) where
   show x = show (coeffs x)
 
 instance Extension Poly where
@@ -73,17 +73,17 @@ instance Extension Poly where
 --   x = idPoly
 --   poly1 = (1 - x + x^2) * (3 - 2*x)
 -- @
-idPoly :: Num a => Poly a
+idPoly :: (Eq a, Num a) => Poly a
 idPoly = fromCoeffs [0,1]
 
 -- |Gives the degree of the polynomial.  @degree 0@ is conventionally @-1@.
-degree :: Num a => Poly a -> Int
+degree :: (Eq a, Num a) => Poly a -> Int
 degree (P 0 []) = -1
 degree (P _ l)  = length l
 
 -- |Returns the coefficients of the polynomial as a list, starting with that
 --  of the constant term, with no trailing zeroes.  @coeffs 0 == []@.
-coeffs :: Num a => Poly a -> [a]
+coeffs :: (Eq a, Num a) => Poly a -> [a]
 coeffs (P 0 []) = []
 coeffs (P c l)  = c : l
 
@@ -93,7 +93,7 @@ coeffsRaw :: Poly a -> [a]
 coeffsRaw (P c l) = c : l
 
 -- |Builds a polynomial from a list of coefficients.
-fromCoeffs :: Num a => [a] -> Poly a
+fromCoeffs :: (Eq a, Num a) => [a] -> Poly a
 fromCoeffs []    = 0
 fromCoeffs (c:l) = P c (canon l)
 
@@ -107,7 +107,7 @@ fromCoeffsRaw (c:l) = P c l
 -- |Builds a polynomial from a list of coefficients.  The list is assumed to
 --  be in \"standard form\", in this case meaning no trailing zeroes.  The
 --  case of an empty list will give 0, which provides a small convenience.
-fromCoeffsRare :: Num a => [a] -> Poly a
+fromCoeffsRare :: (Eq a, Num a) => [a] -> Poly a
 fromCoeffsRare []    = 0
 fromCoeffsRare (c:l) = P c l
 
@@ -119,10 +119,10 @@ leadingTerm (P x [])    = x
 leadingTerm (P _ x)     = last x
 
 -- |Evaluates a polynomial at the given argument.  E.g., @idPoly \`evalAt\` r == r@.
-evalAt :: Num a => Poly a -> a -> a
+evalAt :: (Eq a, Num a) => Poly a -> a -> a
 evalAt p x = sum $ zipWith (*) (coeffs p) $ iterate (*x) 1
 
 -- |Compute the derivative of a polynomial.
-deriv :: Num a => Poly a -> Poly a
+deriv :: (Eq a, Num a) => Poly a -> Poly a
 deriv (P _ [])    = 0
 deriv (P _ (c:l)) = P c $ zipWith (*) (map fromInteger [2..]) l
