@@ -23,7 +23,7 @@ needs `Eq` to test for coefficients being zero.  Thus, the type
 signatures of many definitions required additional constraints.
 
 The master branch has been updated so it will compile and run correctly
-under recent version of GHC (tested under 7.4.1 and 7.6.3).  No attempt
+under recent versions of GHC (tested under 7.4.1 and 7.6.3).  No attempt
 has been made to maintain the code other than to make it work.
 
 
