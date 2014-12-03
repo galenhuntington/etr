@@ -6,8 +6,8 @@ I provide one branch (6.10.1) with the unmodified original code.
 However, this will no longer compile with recent versions of GHC,
 for the following reasons:
 
-1.  Hierarchical modules are now required unless you use a
-compatibility option, and I missed one import back when they were
+1.  Hierarchical modules are now required for the standard libraries unless you use a
+compatibility option, and I missed one `import` back when they were
 only recommended.
 
 2.  The version of GHC I ran it under, 6.10.1, had a defective
@@ -28,7 +28,7 @@ I have also removed a superfluous dependency from the parser.
 It still requires `parsec`, which is included in the Haskell Platform.
 
 The master branch has been updated so it will compile and run correctly
-under recent versions of GHC (tested under 7.4.1, 7.6.3, and 7.8.2).  No attempt
+under recent versions of GHC (tested under 7.4.1, 7.6.3, and 7.8.3).  No attempt
 has been made to maintain the code other than to make it work.
 
 
