@@ -27,9 +27,10 @@ additional constraints.
 I have also removed a superfluous dependency from the parser.
 It still requires `parsec`, which is included in the Haskell Platform.
 
-The master branch has been updated so it will compile and run correctly
-under recent versions of GHC (tested under 7.4.1, 7.6.3, 7.8.3, and 7.10.1).  No attempt
-has been made to maintain the code other than to make it work.
+The master branch has been updated so it will compile and run
+correctly under recent versions of GHC (tested under 7.4.1, 7.6.3,
+7.8.3, 7.10.1, and 8.0.2).  No attempt has been made to maintain the
+code other than to make it work.
 
 
 ##  Abstract of the thesis
