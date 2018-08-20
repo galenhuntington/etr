@@ -25,7 +25,7 @@ Thus, many type signatures and instance declarations required
 additional constraints.
 
 I have also removed a superfluous dependency from the parser.
-It still requires `parsec`, which is included in the Haskell Platform.
+It still requires `parsec`, which is included in all modern GHC installs.
 
 The master branch has been updated so it will compile and run
 correctly under recent versions of GHC (tested under 7.4.1, 7.6.3,
