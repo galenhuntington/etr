@@ -29,7 +29,7 @@ It still requires `parsec`, which is included in all modern GHC installs.
 
 The master branch has been updated so it will compile and run
 correctly under recent versions of GHC (tested under 7.4.1, 7.6.3,
-7.8.3, 7.10.1, 8.0.2, 8.2.1, and 8.4.3).  No attempt has been made to maintain the
+7.8.3, 7.10.1, 8.0.2, 8.2.1, 8.4.3, and 8.6.3).  No attempt has been made to maintain the
 code other than to make it work.
 
 
