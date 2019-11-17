@@ -27,9 +27,9 @@ additional constraints.
 I have also removed a superfluous dependency from the parser.
 It still requires `parsec`, which is included in all modern GHC installs.
 
-The master branch has been updated so it will compile and run
-correctly under recent versions of GHC (tested under 7.4.1, 7.6.3,
-7.8.3, 7.10.1, 8.0.2, 8.2.1, 8.4.3, and 8.6.3).  No attempt has been made to maintain the
+The master branch has been updated so it will compile and run correctly
+under recent versions of GHC (tested under 7.4, 7.6, 7.8, 7.10, 8.0,
+8.2, 8.4, 8.6, and 8.8).  No attempt has been made to maintain the
 code other than to make it work.
 
 
