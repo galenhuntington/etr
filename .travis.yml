@@ -1,10 +1,5 @@
 language: haskell
 
-#  To prevent repeated "cabal update", don't need at all.
-cache:
-  directories:
-    - "$HOME/.cabal/store"
-
 ghc:
   - 7.0.1
   - 7.0.2
@@ -40,7 +35,7 @@ ghc:
   - 8.8.1
 
 #  See if it stamps Cabal.
-before_install: []
+setup: []
 
 install:
   - ghc -O2 TestSuite.hs
@@ -48,5 +43,5 @@ install:
 script:
   # (["-+","+-"],True)
   # (["-+","+-","++"],True)
-  - test "$(./TestSuite | cksum)" = '2217717056 43'
+  - test "$(time ./TestSuite | cksum)" = '2217717056 43'
 
