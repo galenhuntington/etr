@@ -35,7 +35,9 @@ ghc:
   - 8.8.1
 
 #  See if it stamps Cabal.
-setup: true
+setup: "true"
+before_install:
+   - "true"
 
 install:
   - ghc -O2 TestSuite.hs
