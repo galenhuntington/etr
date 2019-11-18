@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/galenhuntington/etr.svg?branch=master)](https://travis-ci.com/galenhuntington/etr)
+
 This is a digital copy of the Haskell source included in my 2008
 dissertation _Towards an efficient decision procedure for the
 existential theory of the reals_.
@@ -27,10 +29,10 @@ additional constraints.
 I have also removed a superfluous dependency from the parser.
 It still requires `parsec`, which is included in all modern GHC installs.
 
-The master branch has been updated so it will compile and run correctly
-under recent versions of GHC (tested under 7.4, 7.6, 7.8, 7.10, 8.0,
-8.2, 8.4, 8.6, and 8.8).  No attempt has been made to maintain the
-code other than to make it work.
+The master branch has been updated so it will compile and run
+correctly under recent versions of GHC.  Travis CI tests are added
+to verify this for GHC 7.0.1 through 8.8.1.  No attempt has been made
+to maintain the code other than to make it work.
 
 
 ##  Abstract of the thesis
