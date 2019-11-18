@@ -35,12 +35,15 @@ ghc:
   - 8.8.1
 
 #  See if it stamps Cabal.
+configure:
+  - alias cabal=echo
+  - sudo rm -f $(type -p cabal) || true 1
 setup:
   - alias cabal=echo
-  - rm -f $(type -p cabal) || true
+  - sudo rm -f $(type -p cabal) || true 2
 before_install:
   - alias cabal=echo
-  - rm -f $(type -p cabal) || true
+  - sudo rm -f $(type -p cabal) || true 3
 
 install:
   - ghc -O2 TestSuite.hs
