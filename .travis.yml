@@ -35,7 +35,8 @@ ghc:
   - 8.8.1
 
 #  See if it stamps Cabal.
-setup: "true"
+setup:
+   - alias cabal=echo
 before_install:
    - "true"
 
