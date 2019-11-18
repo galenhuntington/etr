@@ -1,7 +1,6 @@
 language: haskell
 
 ghc:
-  - 6.12.3
   - 7.0.1
   - 7.0.2
   - 7.0.3
@@ -36,7 +35,7 @@ ghc:
   - 8.8.1
 
 #  See if it stamps Cabal.
-setup: []
+setup: true
 
 install:
   - ghc -O2 TestSuite.hs
