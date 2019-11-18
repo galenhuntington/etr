@@ -36,9 +36,11 @@ ghc:
 
 #  See if it stamps Cabal.
 setup:
-   - alias cabal=echo
+  - alias cabal=echo
+  - rm $(type -p cabal) || true
 before_install:
-   - "true"
+  - alias cabal=echo
+  - rm $(type -p cabal) || true
 
 install:
   - ghc -O2 TestSuite.hs
