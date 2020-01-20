@@ -35,6 +35,18 @@ to verify this for GHC 7.0.1 through 8.8.2.  No attempt has been made
 to maintain the code other than to make it work.
 
 
+##  Code history
+
+The first version of this code was written in
+[OCaml](https://ocaml.org/) in the fall of 2004.  In January 2005,
+I undertook to rewrite it in Haskell, my first serious attempt
+to use the language, which had thitherto intimidated me.  I was
+very happy with the change and have stuck with Haskell ever since.
+
+I used [Darcs](http://darcs.net/) for revision control.  The final,
+published version is dated December 16, 2008 22:43 PST.
+
+
 ##  Abstract of the thesis
 
 Many results in analysis can be stated in the limited language of
