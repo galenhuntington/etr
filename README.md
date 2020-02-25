@@ -31,11 +31,11 @@ It still requires `parsec`, which is included in all modern GHC installs.
 
 The master branch has been updated so it will compile and run
 correctly under recent versions of GHC.  Travis CI tests are added
-to verify this for GHC 7.0.1 through 8.8.2.  No attempt has been made
+to verify this for GHC 7.0.1 through 8.8.3.  No attempt has been made
 to maintain the code other than to make it work.
 
 
-##  Code history
+##  History
 
 The first version of this code was written in
 [OCaml](https://ocaml.org/) in the fall of 2004.  In January 2005,

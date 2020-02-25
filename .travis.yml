@@ -34,6 +34,7 @@ ghc:
   - 8.6.5
   - 8.8.1
   - 8.8.2
+  - 8.8.3
 
 # I cannot seem to prevent the needless "cabal update"!
 
