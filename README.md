@@ -17,7 +17,7 @@ implementation of the `Integer` GCD algorithm, which ultimately exacted
 a significant performance cost.  As such, I wrote a substitute function
 using a "backdoor" into the GHC codebase to make it as efficient
 as it should be.  This backdoor no longer works, and is [no longer
-necessary](https://ghc.haskell.org/trac/ghc/changeset/8827985d7ce902bfc916e4168049c9a46a1d7fe8/base).
+necessary](https://gitlab.haskell.org/ghc/ghc/commit/134633cbb158bebb17d2f5b72444a234eea0d697).
 
 3.  The GHC community has opted to
 [remove](http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/release-7-4-1.html#id3013571)
