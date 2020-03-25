@@ -29,10 +29,10 @@ additional constraints.
 I have also removed a superfluous dependency from the parser.
 It still requires `parsec`, which is included in all modern GHC installs.
 
-The master branch has been updated so it will compile and run
-correctly under recent versions of GHC.  Travis CI tests are added
-to verify this for GHC 7.0.1 through 8.8.3.  No attempt has been made
-to maintain the code other than to make it work.
+The master branch has been updated so it will compile and run correctly
+under recent versions of GHC.  Travis CI tests are added to verify
+this for GHC 7.0.1 through 8.10.1.  No attempt has been made to
+maintain the code other than to make it work.
 
 
 ##  History
