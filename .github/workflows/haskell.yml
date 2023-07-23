@@ -12,7 +12,8 @@ jobs:
       - uses: haskell/actions/setup@v2
         with:
           ghc-version: ${{ matrix.ghc }}
-      - run:
-        - ghc -O2 TestSuite.hs
-        - test "$(time ./TestSuite.hs | cksum)" = '2217717056 43'
+      - run: ghc -O2 TestSuite.hs
+      # (["-+","+-"],True)
+      # (["-+","+-","++"],True)
+      - run: test "$(time ./TestSuite.hs | cksum)" = '2217717056 43'
 
