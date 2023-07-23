@@ -5,7 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ghc: ['7.10', '9.6']
+        ghc: ['8.10', '9.6']
+        include:
+          - os: ubuntu-20.04
+            ghc: '7.10'
     name: GHC ${{ matrix.ghc }}
     steps:
       - uses: actions/checkout@v3
