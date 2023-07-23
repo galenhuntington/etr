@@ -30,9 +30,9 @@ I have also removed a superfluous dependency from the parser.
 It still requires `parsec`, which is included in all modern GHC installs.
 
 The master branch has been updated so it will compile and run correctly
-under recent versions of GHC.  Travis CI tests are added to verify
-this for GHC 7.0 through 9.2.  No attempt has been made to maintain
-the code other than to make it work.
+under recent versions of GHC.  GitHub Action tests are added to verify
+this for a selection of GHC versions from 7.0 to 9.6.  No attempt
+has been made to maintain the code other than to make it work.
 
 
 ##  History
