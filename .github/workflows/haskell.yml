@@ -12,8 +12,10 @@ jobs:
       - uses: haskell/actions/setup@v2
         with:
           ghc-version: ${{ matrix.ghc }}
+          # Can't not install Cabal, but at least skip this.
+          cabal-update: false
       - run: ghc -O2 TestSuite.hs
       # (["-+","+-"],True)
       # (["-+","+-","++"],True)
-      - run: test "$(time ./TestSuite.hs | cksum)" = '2217717056 43'
+      - run: test "$(time ./TestSuite | cksum)" = '2217717056 43'
 
