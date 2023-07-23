@@ -31,8 +31,8 @@ It still requires `parsec`, which is included in all modern GHC installs.
 
 The master branch has been updated so it will compile and run correctly
 under recent versions of GHC.  GitHub Action tests are added to verify
-this for a selection of GHC versions from 7.10 to 9.6.  No attempt
-has been made to maintain the code other than to make it work.
+this for GHC 8.0, 8.10, 9.0, 9.2, 9.4, and 9.6.  No attempt has been
+made to maintain the code other than to make it work.
 
 
 ##  History
