@@ -5,11 +5,10 @@ jobs:
     runs-on: ${{ matrix.os || 'ubuntu-latest' }}
     strategy:
       matrix:
-        ghc: ['8.0', '8.10', '9.6']
-        # Should work but does not.
-        # include:
-        #  - os: ubuntu-20.04
-        #    ghc: '7.10'
+        ghc: ['9.6']
+        include:
+         - os: ubuntu-18.04
+           ghc: '7.10'
     name: GHC ${{ matrix.ghc }}
     steps:
       - uses: actions/checkout@v3
