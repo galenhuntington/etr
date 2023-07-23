@@ -2,10 +2,9 @@ on: [push]
 name: build
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os || 'ubuntu-latest' }}
     strategy:
       matrix:
-        os: ubuntu-latest
         ghc: ['8.10', '9.6']
         include:
           - os: ubuntu-20.04
