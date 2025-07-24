@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/galenhuntington/etr.svg?branch=master)](https://travis-ci.com/galenhuntington/etr)
+[![Build status](https://github.com/galenhuntington/etr/actions/workflows/haskell.yml/badge.svg)](https://github.com/galenhuntington/etr/actions/workflows/haskell.yml)
 
 This is a digital copy of the Haskell source included in my 2008
 dissertation _Towards an efficient decision procedure for the
@@ -31,9 +31,12 @@ It still requires `parsec`, which is included in all modern GHC installs.
 
 The master branch has been updated so it will compile and run correctly
 under recent GHC.  GitHub Action tests are added to verify this for
-a selection of GHC versions (8.0, 8.10, 9.0, 9.2, 9.4, and 9.6).
+a selection of GHC versions (8.0, 9.4, 9.6, 9.8, 9.10, and 9.12).
 No attempt has been made to maintain the code other than to make
 it work.
+
+GHC versions 9.8 and later will emit `-Wx-partial` compilation
+warnings, which are inconsequential.
 
 
 ##  History
